@@ -1,1 +1,1 @@
-# hoopscrapper I created class that can get NBA team and players statistics from https://www.basketball-reference.com/. The notebook shows my process of creating all the necessary objects. The final class is in the fail main.py
+# hoopscrapper I created a class that can get NBA team and players statistics from https://www.basketball-reference.com/. The file notebook.ipynb shows my process of creating all the necessary objects. The final class is in the file main.py
