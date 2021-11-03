@@ -95,18 +95,18 @@ class get_data:
     if season == 1999:
       pass # No all star game in 1999 season
     else:
-      all_star = hoopscrapper.awards.allstar(season)
+      all_star = awards.allstar(season)
       df.loc[df['Player'].isin(all_star), 'All_Star'] = 1  # change all star column to 1 if the player is in the all star list
     df[df.All_Star==1]
 
     # Insert MVP column
     df['MVP'] = 0
-    mvp = hoopscrapper.awards.mvp(season)
+    mvp = awards.mvp(season)
     df.loc[df['Player'] == mvp, 'MVP'] = 1 
     df[df.MVP == 1]
 
     # Insert team records
-    team_records_list = hoopscrapper.get_data.team_records(season).values.tolist()
+    team_records_list = get_data.team_records(season).values.tolist()
     df['team_win'] = 0
     df['team_lose'] = 0
     teams = [i[0] for i in team_records_list] # get list of team names
@@ -126,9 +126,9 @@ class get_data:
 
 
   def multiple(start_year,end_year,stats):
-    df = hoopscrapper.get_data.single(start_year,stats)
+    df = get_data.single(start_year,stats)
     while start_year < end_year:
       start_year = start_year + 1
-      df = df.append(hoopscrapper.get_data.single(start_year,stats))
+      df = df.append(get_data.single(start_year,stats))
 
     return df
