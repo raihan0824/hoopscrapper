@@ -8,5 +8,5 @@ setup(
     author_email='mraihanafiandi@gmail.com',
     description='Get any desired NBA data!',
     packages=find_packages(),    
-    install_requires=['urllib.request', 'urllib.parse', 'urllib.error','bs4','re','pandas']
+    install_requires=['pandas','bs4']
 )
