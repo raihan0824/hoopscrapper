@@ -7,6 +7,7 @@ setup(
     author='Raihan Afiandi',
     author_email='mraihanafiandi@gmail.com',
     description='Get any desired NBA data!',
-    packages=find_packages(),    
-    install_requires=['pandas','bs4']
+    packages=['hoopscrapper'],    
+    install_requires=['pandas','bs4'],
+    license='MIT'
 )
