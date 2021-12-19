@@ -1,5 +1,5 @@
 # Hoopscrapper
-Hoopscrapper is a Python package to scrape data from https://www.basketball-reference.com/. Its main goal is to automate NBA data collection. With hoopscrapper, you can get NBA player statistics and team records from any year without downloading anything. For the detail of the process, read my [article](https://medium.com/@mraihanafiandi/scraping-basketball-reference-data-using-python-f321c3f2903e) on Medium.
+Hoopscrapper is a Python package to scrape data from https://www.basketball-reference.com/. Its main goal is to automate NBA data collection. With hoopscrapper, you can get NBA player statistics and team records from any year without downloading anything. For the details of the process, read my [article](https://medium.com/@mraihanafiandi/scraping-basketball-reference-data-using-python-f321c3f2903e) on Medium.
 ## Installation
 Use the package manager pip to install hoopscrapper like below.
 
