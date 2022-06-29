@@ -60,9 +60,9 @@ class get_data:
     team_records = pd.read_html(str(table))[0]
     team_records = team_records.apply(pd.to_numeric, errors = 'coerce').fillna(team_records)
     team_records.columns = team_records.columns.droplevel(0)
-    team_records = team_records.drop('Rk', 1) # drop Rk columns
+    team_records = team_records.drop('Rk', axis=1) # drop Rk columns
     team_records = team_records.loc[:,['Team','W','L']] # only select team names and its winning and losing records
-    team_records.Team = team_records.Team.str.replace('*','') # remove team names asterisk
+    team_records.Team = team_records.Team.str.replace('*','',regex=True) # remove team names asterisk
 
     team_names = [i[0] for i in team_abrv] # get list of team names
     team_abbrevation = [i[1] for i in team_abrv] # get list of team abbrevation
@@ -82,8 +82,8 @@ class get_data:
 
     df = pd.read_html(str(table_html))[0]
     df = df.drop(df[df.Player == 'Player'].index) # drop row contains table header
-    df = df.drop('Rk', 1) # drop Rk columns
-    df.Player = df.Player.str.replace('*','') # remove asterisk on player's name
+    df = df.drop('Rk', axis=1) # drop Rk columns
+    df.Player = df.Player.str.replace('*','',regex=True) # remove asterisk on player's name
     df.insert(0,'Season',season) # insert season column
     df = df.apply(pd.to_numeric, errors='coerce').fillna(df) # convert non string values to numeric
 
