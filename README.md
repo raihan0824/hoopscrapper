@@ -30,10 +30,10 @@ from hoopscrapper import hoopscrapper
 mvp_2020 = hoopscrapper.awards.mvp(2020)
 print(mvp_2020) # print the name of NBA MVP in 2020 season
 
-player_stats_2020 = hoopscrapper.awards.single(2020,'per_game')
+player_stats_2020 = hoopscrapper.get_data.single(2020,'per_game')
 print(player_stats_2020) # print the dataframe contains NBA player per game statistics in 2020 season
 
-player_stats_1980_2020 = hoopscrapper.awards.multiple(1980,2020,'per_game')
+player_stats_1980_2020 = hoopscrapper.get_data.multiple(1980,2020,'per_game')
 print(player_stats_1980_2020) # print the dataframe contains NBA player per game statistics from 1980 to 2020 season
 ```
 
