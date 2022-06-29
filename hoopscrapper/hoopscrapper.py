@@ -75,7 +75,7 @@ class get_data:
 
     return team_records
 
-  def single(season,stats):
+  def single(season,stats,additional_data=False):
     print('Loading',season,'data...')
     url = f'https://www.basketball-reference.com/leagues/NBA_{season}_{stats}.html'
     table_html = BeautifulSoup(urlopen(url), 'html.parser').findAll('table')
@@ -88,39 +88,40 @@ class get_data:
     df = df.apply(pd.to_numeric, errors='coerce').fillna(df) # convert non string values to numeric
 
     # OPTIONAL
-    # If you want to put all-star and mvp column to the player stats data frame, open this hash. Note that it will slows the process.
+    # If you want to put all-star and mvp column to the player stats data frame, set additional_data=True in the argument. Note that it will slows the process.
 
+    if additional_data:
     # Insert all-star column
-    df['All_Star'] = 0
-    if season == 1999:
-      pass # No all star game in 1999 season
-    else:
-      all_star = awards.allstar(season)
-      df.loc[df['Player'].isin(all_star), 'All_Star'] = 1  # change all star column to 1 if the player is in the all star list
-    df[df.All_Star==1]
-
-    # Insert MVP column
-    df['MVP'] = 0
-    mvp = awards.mvp(season)
-    df.loc[df['Player'] == mvp, 'MVP'] = 1 
-    df[df.MVP == 1]
-
-    # Insert team records
-    team_records_list = get_data.team_records(season).values.tolist()
-    df['team_win'] = 0
-    df['team_lose'] = 0
-    teams = [i[0] for i in team_records_list] # get list of team names
-    win = [i[1] for i in team_records_list] # get list of team winning records
-    lose = [i[2] for i in team_records_list] # get list of team losing records
-
-    for team,i in zip(df.Tm,(df.Tm.index.values)): # there's a missing index so the iteration is going through the index values
-      if team in teams: 
-        idx = (teams.index(team)) # get index in the team_records_list
-        df.team_win[i]= win[idx] # add win records to df
-        df.team_lose[i]= lose[idx] # add win records to df
+      df['All_Star'] = 0
+      if season == 1999:
+        pass # No all star game in 1999 season
       else:
-        df.team_win[i] = 0
-        df.team_lose[i] = 0
+        all_star = awards.allstar(season)
+        df.loc[df['Player'].isin(all_star), 'All_Star'] = 1  # change all star column to 1 if the player is in the all star list
+      df[df.All_Star==1]
+
+      # Insert MVP column
+      df['MVP'] = 0
+      mvp = awards.mvp(season)
+      df.loc[df['Player'] == mvp, 'MVP'] = 1 
+      df[df.MVP == 1]
+
+      # Insert team records
+      team_records_list = get_data.team_records(season).values.tolist()
+      df['team_win'] = 0
+      df['team_lose'] = 0
+      teams = [i[0] for i in team_records_list] # get list of team names
+      win = [i[1] for i in team_records_list] # get list of team winning records
+      lose = [i[2] for i in team_records_list] # get list of team losing records
+
+      for team,i in zip(df.Tm,(df.Tm.index.values)): # there's a missing index so the iteration is going through the index values
+        if team in teams: 
+          idx = (teams.index(team)) # get index in the team_records_list
+          df.team_win[i]= win[idx] # add win records to df
+          df.team_lose[i]= lose[idx] # add win records to df
+        else:
+          df.team_win[i] = 0
+          df.team_lose[i] = 0
 
     return df
 
