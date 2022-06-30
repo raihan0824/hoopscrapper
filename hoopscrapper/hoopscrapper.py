@@ -4,6 +4,7 @@ import re
 import string
 from urllib.request import urlopen
 import pandas as pd
+from fuzzywuzzy import fuzz
 pd.options.mode.chained_assignment = None 
 
 class awards:
@@ -75,7 +76,7 @@ class get_data:
 
     return team_records
 
-  def single(season,stats,additional_data=False):
+  def single(season,stats,additional_data=False,salary=False):
     print('Loading',season,'data...')
     url = f'https://www.basketball-reference.com/leagues/NBA_{season}_{stats}.html'
     table_html = BeautifulSoup(urlopen(url), 'html.parser').findAll('table')
@@ -122,14 +123,48 @@ class get_data:
         else:
           df.team_win[i] = 0
           df.team_lose[i] = 0
+    
+    if salary:
+      # Get players' salary data from hoopshype.com
+      def get_salary(season):
+          season=str(int(season)-1)+'-'+str(int(season))
+          url=f'https://hoopshype.com/salaries/players/{season}/'
+          soup=BeautifulSoup(urlopen(url),'html.parser')
+          salary=pd.read_html(str(soup))[0]
+          salary=salary.iloc[:,[1,3]]
+          salary=salary.rename(columns={salary.columns[1]:'Salary'})
+          return salary
+      
+      stats=df
+      salary=get_salary(season)
+      salary_names=salary.Player.tolist()
 
+      for salary_name in salary_names:
+          stats.Player=stats.Player.apply(
+              lambda stats_name: salary_name if fuzz.ratio(stats_name,salary_name)>=80
+                      else stats_name)
+      
+      df=pd.merge(stats,salary,how='left',left_on='Player',right_on='Player')
     return df
 
 
-  def multiple(start_year,end_year,stats):
-    df = get_data.single(start_year,stats)
+  def multiple(start_year,end_year,stats,additional_data=False,salary=False):
+    if additional_data:
+      df = get_data.single(start_year,stats,additional_data=True)
+    elif salary:
+      df = get_data.single(start_year,stats,salary=True)
+    else:
+      df = get_data.single(start_year,stats)
+      
     while start_year < end_year:
       start_year = start_year + 1
-      df = df.append(get_data.single(start_year,stats))
+      if additional_data:
+        df_next = get_data.single(start_year,stats,additional_data=True)
+      elif salary:
+        df_next = get_data.single(start_year,stats,salary=True)
+      else:
+        df_next = get_data.single(start_year,stats)
+
+      df = pd.concat([df,df_next])
 
     return df
