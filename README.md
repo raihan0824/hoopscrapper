@@ -9,10 +9,10 @@ Use the package manager pip to install hoopscrapper like below.
 
 ## Usage
 Features:
-- hoopscrapper.awards.mvp(season) --> Generate the name of NBA MVP in the determined season
-- hoopscrapper.awards.allstar(season) --> Generate the list of NBA All-Star players in the determined season
-- hoopscrapper.get_data.team_records(season) --> Generate the winning and losing records of NBA team in the determined season
-- hoopscrapper.get_data.single(season,stats) --> Generate NBA players' stats in the determined season. Argument stats are:
+- `hoopscrapper.awards.mvp(season)` --> Generate the name of NBA MVP in the determined season
+- `hoopscrapper.awards.allstar(season)` --> Generate the list of NBA All-Star players in the determined season
+- `hoopscrapper.get_data.team_records(season)` --> Generate the winning and losing records of NBA team in the determined season
+- `hoopscrapper.get_data.single(season,stats)` --> Generate NBA players' stats in the determined season. Argument stats are:
   - per_game
   - per_minute
   - per_poss
@@ -21,7 +21,7 @@ Features:
   - shooting
   - adj_shooting
   - play-by-play
-- hoopscrapper.get_data.multiple(start_year,end_year,stats) --> Generate NBA players' stats in multiple season.
+- `hoopscrapper.get_data.multiple(start_year,end_year,stats)` --> Generate NBA players' stats in multiple season.
 
 #### Demo of some of the features
 ```python
